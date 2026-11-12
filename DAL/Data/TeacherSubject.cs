@@ -12,7 +12,7 @@ namespace DAL.Data
         public int TeacherID { get; set; }
         public int SubjectID { get; set; }
 
-        public User Teacher { get; set; }
-        public Subject Subject { get; set; }
+        public User? Teacher { get; set; }
+        public Subject? Subject { get; set; }
     }
 }

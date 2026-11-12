@@ -19,6 +19,6 @@ namespace DAL.Data
         public Role Role { get; set; }
 
 
-        public List<TeacherSubject> TeacherSubjects { get; set; }
+        public List<TeacherSubject>? TeacherSubjects { get; set; }
     }
 }

@@ -11,7 +11,7 @@ namespace DAL.Data
         public int SubjectId { get; set; }
         public string SubjectName { get; set; }
 
-        public List<TeacherSubject> TeacherSubjects { get; set; }
+        public List<TeacherSubject>? TeacherSubjects { get; set; }
 
     }
 }

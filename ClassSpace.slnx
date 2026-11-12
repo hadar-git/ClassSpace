@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="ClassSpace/ClassSpace.csproj" />
+  <Project Path="DAL/DAL.csproj" />
+</Solution>

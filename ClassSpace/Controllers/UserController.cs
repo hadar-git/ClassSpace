@@ -8,23 +8,23 @@ namespace ClassSpace.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IUserRepository _userRepository;
+        private IUserRepository userRepository;
 
         public UserController(IUserRepository userRepository)
         {
-            _userRepository = userRepository;
+            this.userRepository = userRepository;
         }
 
         [HttpGet]
         public List<User> GetUsers()
         {
-            return _userRepository.GetUsers();
+            return userRepository.GetUsers();
         }
 
         [HttpGet("{id}")]
         public ActionResult<User> GetUser(int id)
         {
-            User user = _userRepository.GetUser(id);
+            User user = userRepository.GetUser(id);
             if (user == null)
                 return NotFound();
             return user;
@@ -33,25 +33,25 @@ namespace ClassSpace.Controllers
         [HttpGet("role/{role}")]
         public List<User> GetUsersByRole(Role role)
         {
-            return _userRepository.GetUsersByRole(role);
+            return userRepository.GetUsersByRole(role);
         }
 
         [HttpPost]
         public User AddUser(User user)
         {
-            return _userRepository.AddUser(user);
+            return userRepository.AddUser(user);
         }
 
         [HttpPut]
         public User UpdateUser(User user)
         {
-            return _userRepository.UpdateUser(user);
+            return userRepository.UpdateUser(user);
         }
 
         [HttpDelete("{id}")]
         public ActionResult DeleteUser(int id)
         {
-            if (!_userRepository.DeleteUser(id))
+            if (!userRepository.DeleteUser(id))
                 return NotFound();
             return Ok();
         }

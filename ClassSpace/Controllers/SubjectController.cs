@@ -8,25 +8,25 @@ namespace ClassSpace.Controllers
     [ApiController]
     public class SubjectController : ControllerBase
     {
-        private ISubjectRepository _subjectRepository;
+        private ISubjectRepository subjectRepository;
 
         public SubjectController(ISubjectRepository subjectRepository)
         {
-            _subjectRepository = subjectRepository;
+            this.subjectRepository = subjectRepository;
         }
 
         // GET api/Subject
         [HttpGet]
         public List<Subject> GetSubjects()
         {
-            return _subjectRepository.GetSubjects();
+            return subjectRepository.GetSubjects();
         }
 
         // GET api/Subject/5
         [HttpGet("{id}")]
         public ActionResult<Subject> GetSubject(int id)
         {
-            Subject subject = _subjectRepository.GetSubject(id);
+            Subject subject = subjectRepository.GetSubject(id);
             if (subject == null)
                 return NotFound();
             return subject;
@@ -36,21 +36,21 @@ namespace ClassSpace.Controllers
         [HttpPost]
         public Subject AddSubject(Subject subject)
         {
-            return _subjectRepository.AddSubject(subject);
+            return subjectRepository.AddSubject(subject);
         }
 
         // PUT api/Subject
         [HttpPut]
         public Subject UpdateSubject(Subject subject)
         {
-            return _subjectRepository.UpdateSubject(subject);
+            return subjectRepository.UpdateSubject(subject);
         }
 
         // DELETE api/Subject/5
         [HttpDelete("{id}")]
         public ActionResult DeleteSubject(int id)
         {
-            if (!_subjectRepository.DeleteSubject(id))
+            if (!subjectRepository.DeleteSubject(id))
                 return NotFound();
             return Ok();
         }

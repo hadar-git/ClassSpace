@@ -10,14 +10,15 @@ namespace DAL.Data
     public enum Role { Admin = 1, Teacher, Student }
     public class User
     {
-
-        
         public int UserID { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
         public string Password  { get; set; }
         public Role Role { get; set; }
 
+        // רק לתלמידה יש כיתה, לכן int?
+        public int? ClassID { get; set; }
+        public Class? Class { get; set; }
 
         public List<TeacherSubject>? TeacherSubjects { get; set; }
     }

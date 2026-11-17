@@ -18,6 +18,7 @@ namespace DAL.Repositories
             return db.TeacherSubjects
                 .Include(ts => ts.Teacher)
                 .Include(ts => ts.Subject)
+                .Include(ts => ts.Class)
                 .ToList();
         }
 
@@ -26,6 +27,7 @@ namespace DAL.Repositories
             return db.TeacherSubjects
                 .Include(ts => ts.Teacher)
                 .Include(ts => ts.Subject)
+                .Include(ts => ts.Class)
                 .FirstOrDefault(ts => ts.TeacherSubjectId == id);
         }
 
@@ -50,6 +52,7 @@ namespace DAL.Repositories
         {
             return db.TeacherSubjects
                 .Include(ts => ts.Subject)
+                .Include(ts => ts.Class)
                 .Where(ts => ts.TeacherID == teacherId)
                 .ToList();
         }
@@ -58,7 +61,17 @@ namespace DAL.Repositories
         {
             return db.TeacherSubjects
                 .Include(ts => ts.Teacher)
+                .Include(ts => ts.Class)
                 .Where(ts => ts.SubjectID == subjectId)
+                .ToList();
+        }
+
+        public List<TeacherSubject> GetByClass(int classId)
+        {
+            return db.TeacherSubjects
+                .Include(ts => ts.Teacher)
+                .Include(ts => ts.Subject)
+                .Where(ts => ts.ClassID == classId)
                 .ToList();
         }
     }

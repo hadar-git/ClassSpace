@@ -22,6 +22,112 @@ namespace DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("DAL.Data.Assignment", b =>
+                {
+                    b.Property<int>("AssignmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssignmentId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("DueDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("FilePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TeacherSubjectID")
+                        .HasColumnType("int");
+
+                    b.HasKey("AssignmentId");
+
+                    b.HasIndex("TeacherSubjectID");
+
+                    b.ToTable("Assignments");
+                });
+
+            modelBuilder.Entity("DAL.Data.AssignmentUnit", b =>
+                {
+                    b.Property<int>("AssignmentID")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UnitID")
+                        .HasColumnType("int");
+
+                    b.HasKey("AssignmentID", "UnitID");
+
+                    b.HasIndex("UnitID");
+
+                    b.ToTable("AssignmentUnits");
+                });
+
+            modelBuilder.Entity("DAL.Data.Class", b =>
+                {
+                    b.Property<int>("ClassId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClassId"));
+
+                    b.Property<string>("ClassName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ClassId");
+
+                    b.ToTable("Classes");
+                });
+
+            modelBuilder.Entity("DAL.Data.Material", b =>
+                {
+                    b.Property<int>("MaterialId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("MaterialId"));
+
+                    b.Property<int?>("AssignmentID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("QuestionID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UnitID")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UploadedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("UploadedByID")
+                        .HasColumnType("int");
+
+                    b.HasKey("MaterialId");
+
+                    b.HasIndex("AssignmentID");
+
+                    b.HasIndex("QuestionID");
+
+                    b.HasIndex("UnitID");
+
+                    b.HasIndex("UploadedByID");
+
+                    b.ToTable("Materials");
+                });
+
             modelBuilder.Entity("DAL.Data.Question", b =>
                 {
                     b.Property<int>("QuestionId")
@@ -30,37 +136,71 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuestionId"));
 
-                    b.Property<DateTime>("Date")
+                    b.Property<string>("AnswerText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("AnsweredAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
+                    b.Property<int?>("AssignmentID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Body")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("StudentID")
                         .HasColumnType("int");
 
-                    b.Property<int>("SubjectID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TeacherID")
+                    b.Property<int>("TeacherSubjectID")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("VotesCount")
+                    b.Property<int>("UnitID")
                         .HasColumnType("int");
 
                     b.HasKey("QuestionId");
 
+                    b.HasIndex("AssignmentID");
+
                     b.HasIndex("StudentID");
+
+                    b.HasIndex("TeacherSubjectID");
+
+                    b.HasIndex("UnitID");
+
+                    b.ToTable("Questions");
+                });
+
+            modelBuilder.Entity("DAL.Data.StudyUnit", b =>
+                {
+                    b.Property<int>("UnitId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UnitId"));
+
+                    b.Property<int>("OrderIndex")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SubjectID")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UnitName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UnitId");
 
                     b.HasIndex("SubjectID");
 
-                    b.HasIndex("TeacherID");
-
-                    b.ToTable("Questions");
+                    b.ToTable("StudyUnits");
                 });
 
             modelBuilder.Entity("DAL.Data.Subject", b =>
@@ -88,6 +228,9 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeacherSubjectId"));
 
+                    b.Property<int>("ClassID")
+                        .HasColumnType("int");
+
                     b.Property<int>("SubjectID")
                         .HasColumnType("int");
 
@@ -95,6 +238,8 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("TeacherSubjectId");
+
+                    b.HasIndex("ClassID");
 
                     b.HasIndex("SubjectID");
 
@@ -110,6 +255,9 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
+
+                    b.Property<int?>("ClassID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -127,6 +275,8 @@ namespace DAL.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("UserID");
+
+                    b.HasIndex("ClassID");
 
                     b.ToTable("Users");
                 });
@@ -146,50 +296,145 @@ namespace DAL.Migrations
                     b.ToTable("Votes");
                 });
 
+            modelBuilder.Entity("DAL.Data.Assignment", b =>
+                {
+                    b.HasOne("DAL.Data.TeacherSubject", "TeacherSubject")
+                        .WithMany()
+                        .HasForeignKey("TeacherSubjectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TeacherSubject");
+                });
+
+            modelBuilder.Entity("DAL.Data.AssignmentUnit", b =>
+                {
+                    b.HasOne("DAL.Data.Assignment", "Assignment")
+                        .WithMany()
+                        .HasForeignKey("AssignmentID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Data.StudyUnit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("DAL.Data.Material", b =>
+                {
+                    b.HasOne("DAL.Data.Assignment", "Assignment")
+                        .WithMany()
+                        .HasForeignKey("AssignmentID");
+
+                    b.HasOne("DAL.Data.Question", "Question")
+                        .WithMany()
+                        .HasForeignKey("QuestionID");
+
+                    b.HasOne("DAL.Data.StudyUnit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Data.User", "UploadedBy")
+                        .WithMany()
+                        .HasForeignKey("UploadedByID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
+
+                    b.Navigation("Question");
+
+                    b.Navigation("Unit");
+
+                    b.Navigation("UploadedBy");
+                });
+
             modelBuilder.Entity("DAL.Data.Question", b =>
                 {
+                    b.HasOne("DAL.Data.Assignment", "Assignment")
+                        .WithMany()
+                        .HasForeignKey("AssignmentID");
+
                     b.HasOne("DAL.Data.User", "Student")
                         .WithMany()
                         .HasForeignKey("StudentID")
                         .OnDelete(DeleteBehavior.NoAction)
                         .IsRequired();
 
+                    b.HasOne("DAL.Data.TeacherSubject", "TeacherSubject")
+                        .WithMany()
+                        .HasForeignKey("TeacherSubjectID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Data.StudyUnit", "Unit")
+                        .WithMany()
+                        .HasForeignKey("UnitID")
+                        .OnDelete(DeleteBehavior.NoAction)
+                        .IsRequired();
+
+                    b.Navigation("Assignment");
+
+                    b.Navigation("Student");
+
+                    b.Navigation("TeacherSubject");
+
+                    b.Navigation("Unit");
+                });
+
+            modelBuilder.Entity("DAL.Data.StudyUnit", b =>
+                {
                     b.HasOne("DAL.Data.Subject", "Subject")
                         .WithMany()
                         .HasForeignKey("SubjectID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DAL.Data.User", "Teacher")
+                    b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("DAL.Data.TeacherSubject", b =>
+                {
+                    b.HasOne("DAL.Data.Class", "Class")
                         .WithMany()
-                        .HasForeignKey("TeacherID")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .HasForeignKey("ClassID")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Student");
+                    b.HasOne("DAL.Data.Subject", "Subject")
+                        .WithMany("TeacherSubjects")
+                        .HasForeignKey("SubjectID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DAL.Data.User", "Teacher")
+                        .WithMany("TeacherSubjects")
+                        .HasForeignKey("TeacherID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Class");
 
                     b.Navigation("Subject");
 
                     b.Navigation("Teacher");
                 });
 
-            modelBuilder.Entity("DAL.Data.TeacherSubject", b =>
+            modelBuilder.Entity("DAL.Data.User", b =>
                 {
-                    b.HasOne("DAL.Data.Subject", "Subject")
-                        .WithMany("TeacherSubjects")
-                        .HasForeignKey("SubjectID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("DAL.Data.Class", "Class")
+                        .WithMany()
+                        .HasForeignKey("ClassID");
 
-                    b.HasOne("DAL.Data.User", "Teacher")
-                        .WithMany("TeacherSubjects")
-                        .HasForeignKey("TeacherID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Subject");
-
-                    b.Navigation("Teacher");
+                    b.Navigation("Class");
                 });
 
             modelBuilder.Entity("DAL.Data.Vote", b =>

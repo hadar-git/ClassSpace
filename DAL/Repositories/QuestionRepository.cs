@@ -16,8 +16,9 @@ namespace DAL.Repositories
         {
             return db.Questions
                 .Include(q => q.Student)
-                .Include(q => q.Teacher)
-                .Include(q => q.Subject)
+                .Include(q => q.TeacherSubject)
+                .Include(q => q.Assignment)
+                .Include(q => q.Unit)
                 .ToList();
         }
 
@@ -25,8 +26,9 @@ namespace DAL.Repositories
         {
             return db.Questions
                 .Include(q => q.Student)
-                .Include(q => q.Teacher)
-                .Include(q => q.Subject)
+                .Include(q => q.TeacherSubject)
+                .Include(q => q.Assignment)
+                .Include(q => q.Unit)
                 .FirstOrDefault(q => q.QuestionId == id);
         }
 
@@ -54,12 +56,25 @@ namespace DAL.Repositories
             return true;
         }
 
-        public List<Question> GetQuestionsByTeacher(int teacherId)
+        public List<Question> GetQuestionsByUnit(int unitId)
         {
             return db.Questions
                 .Include(q => q.Student)
-                .Include(q => q.Subject)
-                .Where(q => q.TeacherID == teacherId)
+                .Include(q => q.TeacherSubject)
+                .Include(q => q.Assignment)
+                .Include(q => q.Unit)
+                .Where(q => q.UnitID == unitId)
+                .ToList();
+        }
+
+        public List<Question> GetQuestionsByTeacherSubject(int teacherSubjectId)
+        {
+            return db.Questions
+                .Include(q => q.Student)
+                .Include(q => q.TeacherSubject)
+                .Include(q => q.Assignment)
+                .Include(q => q.Unit)
+                .Where(q => q.TeacherSubjectID == teacherSubjectId)
                 .ToList();
         }
     }

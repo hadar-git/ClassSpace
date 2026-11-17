@@ -46,6 +46,13 @@ namespace ClassSpace.Controllers
             return teacherSubjectRepository.GetBySubject(subjectId);
         }
 
+        // GET api/TeacherSubject/class/5 - מה לומדים בכיתה
+        [HttpGet("class/{classId}")]
+        public List<TeacherSubject> GetByClass(int classId)
+        {
+            return teacherSubjectRepository.GetByClass(classId);
+        }
+
         // POST api/TeacherSubject
         [HttpPost]
         public TeacherSubject AddTeacherSubject(TeacherSubject ts)

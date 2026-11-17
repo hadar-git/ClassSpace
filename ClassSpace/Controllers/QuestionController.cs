@@ -32,11 +32,18 @@ namespace ClassSpace.Controllers
             return question;
         }
 
-        // GET api/Question/teacher/2
-        [HttpGet("teacher/{teacherId}")]
-        public List<Question> GetQuestionsByTeacher(int teacherId)
+        // GET api/Question/unit/5 - השאלות של יחידת לימוד (בשביל האלגוריתם)
+        [HttpGet("unit/{unitId}")]
+        public List<Question> GetQuestionsByUnit(int unitId)
         {
-            return questionRepository.GetQuestionsByTeacher(teacherId);
+            return questionRepository.GetQuestionsByUnit(unitId);
+        }
+
+        // GET api/Question/teacherSubject/5 - השאלות שמגיעות למורה במקצוע ובכיתה
+        [HttpGet("teacherSubject/{teacherSubjectId}")]
+        public List<Question> GetQuestionsByTeacherSubject(int teacherSubjectId)
+        {
+            return questionRepository.GetQuestionsByTeacherSubject(teacherSubjectId);
         }
 
         // POST api/Question

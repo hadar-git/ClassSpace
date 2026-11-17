@@ -11,17 +11,21 @@ namespace DAL.Data
         public int QuestionId { get; set; }
 
         public string Title { get; set; }
-        public string? Description { get; set; }
-        public DateTime Date { get; set; }
-        public int VotesCount { get; set; }
+        public string Body { get; set; }
+        public string? AnswerText { get; set; }
+        public DateTime CreatedAt { get; set; }
+        public DateTime? AnsweredAt { get; set; }
 
         public int StudentID { get; set; }
         public User? Student { get; set; }
 
-        public int TeacherID { get; set; }
-        public User? Teacher { get; set; }
+        public int TeacherSubjectID { get; set; }
+        public TeacherSubject? TeacherSubject { get; set; }
 
-        public int SubjectID { get; set; }
-        public Subject? Subject { get; set; }
+        public int? AssignmentID { get; set; }
+        public Assignment? Assignment { get; set; }
+
+        public int UnitID { get; set; }
+        public StudyUnit? Unit { get; set; }
     }
 }

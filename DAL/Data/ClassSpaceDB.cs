@@ -13,7 +13,7 @@ namespace DAL.Data
         {}
 
         public DbSet<User> Users { get; set; }
-        public DbSet<Class> Classes { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Subject> Subjects { get; set; }
         public DbSet<TeacherSubject> TeacherSubjects { get; set; }
         public DbSet<StudyUnit> StudyUnits { get; set; }
@@ -23,16 +23,22 @@ namespace DAL.Data
         public DbSet<Vote> Votes { get; set; }
         public DbSet<Material> Materials { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=ClassSpaceDB;Integrated Security=True;Trust Server Certificate=True");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // מפתחות כפולים בטבלאות הקישור
             modelBuilder.Entity<StudyUnit>().HasKey(u => u.UnitId);
             modelBuilder.Entity<AssignmentUnit>().HasKey(au => new { au.AssignmentID, au.UnitID });
             modelBuilder.Entity<Vote>().HasKey(v => new { v.QuestionID, v.StudentID });
 
-            // NoAction: כדי שלא יהיו שני מסלולי מחיקה לאותה טבלה (SQL Server לא מרשה)
             modelBuilder.Entity<AssignmentUnit>()
                 .HasOne(au => au.Unit)
                 .WithMany()

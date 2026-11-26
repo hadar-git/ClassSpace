@@ -12,6 +12,6 @@ namespace DAL.Repositories
         // לפי הצרכים של הפרויקט
         List<TeacherSubject> GetByTeacher(int teacherId);            // אילו מקצועות מלמדת מורה
         List<TeacherSubject> GetBySubject(int subjectId);            // אילו מורות מלמדות מקצוע
-        List<TeacherSubject> GetByClass(int classId);                // מה לומדים בכיתה
+        List<TeacherSubject> GetByLesson(int lessonId);                // מה לומדים בכיתה
     }
 }

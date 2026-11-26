@@ -12,44 +12,44 @@ namespace DAL.Repositories
             this.db = db;
         }
 
-        public List<Vote> GetVotes()
+        public async Task<List<Vote>> GetVotesAsync()
         {
-            return db.Votes
+            return await db.Votes
                 .Include(v => v.Question)
                 .Include(v => v.Student)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Vote GetVote(int questionId, int studentId)
+        public async Task<Vote> GetVoteAsync(int questionId, int studentId)
         {
-            return db.Votes
+            return await db.Votes
                 .Include(v => v.Question)
                 .Include(v => v.Student)
-                .FirstOrDefault(v => v.QuestionID == questionId && v.StudentID == studentId);
+                .FirstOrDefaultAsync(v => v.QuestionID == questionId && v.StudentID == studentId);
         }
 
-        public List<Vote> GetVotesByQuestion(int questionId)
+        public async Task<List<Vote>> GetVotesByQuestionAsync(int questionId)
         {
-            return db.Votes
+            return await db.Votes
                 .Include(v => v.Student)
                 .Where(v => v.QuestionID == questionId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Vote AddVote(Vote vote)
+        public async Task<Vote> AddVoteAsync(Vote vote)
         {
             db.Votes.Add(vote);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return vote;
         }
 
-        public bool DeleteVote(int questionId, int studentId)
+        public async Task<bool> DeleteVoteAsync(int questionId, int studentId)
         {
-            Vote vote = db.Votes.FirstOrDefault(v => v.QuestionID == questionId && v.StudentID == studentId);
+            Vote vote = await db.Votes.FirstOrDefaultAsync(v => v.QuestionID == questionId && v.StudentID == studentId);
             if (vote == null)
                 return false;
             db.Votes.Remove(vote);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return true;
         }
     }

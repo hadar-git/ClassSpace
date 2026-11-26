@@ -17,16 +17,16 @@ namespace ClassSpace.Controllers
 
         // GET api/Question
         [HttpGet]
-        public List<Question> GetQuestions()
+        public async Task<List<Question>> GetQuestions()
         {
-            return questionRepository.GetQuestions();
+            return await questionRepository.GetQuestionsAsync();
         }
 
         // GET api/Question/5
         [HttpGet("{id}")]
-        public ActionResult<Question> GetQuestion(int id)
+        public async Task<ActionResult<Question>> GetQuestion(int id)
         {
-            Question question = questionRepository.GetQuestion(id);
+            Question question = await questionRepository.GetQuestionAsync(id);
             if (question == null)
                 return NotFound();
             return question;
@@ -34,37 +34,37 @@ namespace ClassSpace.Controllers
 
         // GET api/Question/unit/5 - השאלות של יחידת לימוד (בשביל האלגוריתם)
         [HttpGet("unit/{unitId}")]
-        public List<Question> GetQuestionsByUnit(int unitId)
+        public async Task<List<Question>> GetQuestionsByUnit(int unitId)
         {
-            return questionRepository.GetQuestionsByUnit(unitId);
+            return await questionRepository.GetQuestionsByUnitAsync(unitId);
         }
 
         // GET api/Question/teacherSubject/5 - השאלות שמגיעות למורה במקצוע ובכיתה
         [HttpGet("teacherSubject/{teacherSubjectId}")]
-        public List<Question> GetQuestionsByTeacherSubject(int teacherSubjectId)
+        public async Task<List<Question>> GetQuestionsByTeacherSubject(int teacherSubjectId)
         {
-            return questionRepository.GetQuestionsByTeacherSubject(teacherSubjectId);
+            return await questionRepository.GetQuestionsByTeacherSubjectAsync(teacherSubjectId);
         }
 
         // POST api/Question
         [HttpPost]
-        public Question AddQuestion(Question question)
+        public async Task<Question> AddQuestion(Question question)
         {
-            return questionRepository.AddQuestion(question);
+            return await questionRepository.AddQuestionAsync(question);
         }
 
         // PUT api/Question
         [HttpPut]
-        public Question UpdateQuestion(Question question)
+        public async Task<Question> UpdateQuestion(Question question)
         {
-            return questionRepository.UpdateQuestion(question);
+            return await questionRepository.UpdateQuestionAsync(question);
         }
 
         // DELETE api/Question/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteQuestion(int id)
+        public async Task<ActionResult> DeleteQuestion(int id)
         {
-            if (!questionRepository.DeleteQuestion(id))
+            if (!await questionRepository.DeleteQuestionAsync(id))
                 return NotFound();
             return Ok();
         }

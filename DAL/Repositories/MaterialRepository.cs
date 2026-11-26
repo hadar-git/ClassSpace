@@ -12,81 +12,81 @@ namespace DAL.Repositories
             this.db = db;
         }
 
-        public List<Material> GetMaterials()
+        public async Task<List<Material>> GetMaterialsAsync()
         {
-            return db.Materials
+            return await db.Materials
                 .Include(m => m.UploadedBy)
                 .Include(m => m.Unit)
                 .Include(m => m.Assignment)
                 .Include(m => m.Question)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Material GetMaterial(int id)
+        public async Task<Material> GetMaterialAsync(int id)
         {
-            return db.Materials
+            return await db.Materials
                 .Include(m => m.UploadedBy)
                 .Include(m => m.Unit)
                 .Include(m => m.Assignment)
                 .Include(m => m.Question)
-                .FirstOrDefault(m => m.MaterialId == id);
+                .FirstOrDefaultAsync(m => m.MaterialId == id);
         }
 
-        public Material AddMaterial(Material material)
+        public async Task<Material> AddMaterialAsync(Material material)
         {
             db.Materials.Add(material);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return material;
         }
 
-        public Material UpdateMaterial(Material material)
+        public async Task<Material> UpdateMaterialAsync(Material material)
         {
             db.Materials.Update(material);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return material;
         }
 
-        public bool DeleteMaterial(int id)
+        public async Task<bool> DeleteMaterialAsync(int id)
         {
-            Material material = db.Materials.FirstOrDefault(m => m.MaterialId == id);
+            Material material = await db.Materials.FirstOrDefaultAsync(m => m.MaterialId == id);
             if (material == null)
                 return false;
             db.Materials.Remove(material);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return true;
         }
 
-        public List<Material> GetMaterialsByUnit(int unitId)
+        public async Task<List<Material>> GetMaterialsByUnitAsync(int unitId)
         {
-            return db.Materials
+            return await db.Materials
                 .Include(m => m.UploadedBy)
                 .Include(m => m.Unit)
                 .Include(m => m.Assignment)
                 .Include(m => m.Question)
                 .Where(m => m.UnitID == unitId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public List<Material> GetMaterialsByAssignment(int assignmentId)
+        public async Task<List<Material>> GetMaterialsByAssignmentAsync(int assignmentId)
         {
-            return db.Materials
+            return await db.Materials
                 .Include(m => m.UploadedBy)
                 .Include(m => m.Unit)
                 .Include(m => m.Assignment)
                 .Include(m => m.Question)
                 .Where(m => m.AssignmentID == assignmentId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public List<Material> GetMaterialsByQuestion(int questionId)
+        public async Task<List<Material>> GetMaterialsByQuestionAsync(int questionId)
         {
-            return db.Materials
+            return await db.Materials
                 .Include(m => m.UploadedBy)
                 .Include(m => m.Unit)
                 .Include(m => m.Assignment)
                 .Include(m => m.Question)
                 .Where(m => m.QuestionID == questionId)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

@@ -17,16 +17,16 @@ namespace ClassSpace.Controllers
 
         // GET api/Assignment
         [HttpGet]
-        public List<Assignment> GetAssignments()
+        public async Task<List<Assignment>> GetAssignments()
         {
-            return assignmentRepository.GetAssignments();
+            return await assignmentRepository.GetAssignmentsAsync();
         }
 
         // GET api/Assignment/5
         [HttpGet("{id}")]
-        public ActionResult<Assignment> GetAssignment(int id)
+        public async Task<ActionResult<Assignment>> GetAssignment(int id)
         {
-            Assignment assignment = assignmentRepository.GetAssignment(id);
+            Assignment assignment = await assignmentRepository.GetAssignmentAsync(id);
             if (assignment == null)
                 return NotFound();
             return assignment;
@@ -34,30 +34,30 @@ namespace ClassSpace.Controllers
 
         // GET api/Assignment/teacherSubject/5 - המטלות של מורה+מקצוע+כיתה
         [HttpGet("teacherSubject/{teacherSubjectId}")]
-        public List<Assignment> GetAssignmentsByTeacherSubject(int teacherSubjectId)
+        public async Task<List<Assignment>> GetAssignmentsByTeacherSubject(int teacherSubjectId)
         {
-            return assignmentRepository.GetAssignmentsByTeacherSubject(teacherSubjectId);
+            return await assignmentRepository.GetAssignmentsByTeacherSubjectAsync(teacherSubjectId);
         }
 
         // POST api/Assignment
         [HttpPost]
-        public Assignment AddAssignment(Assignment assignment)
+        public async Task<Assignment> AddAssignment(Assignment assignment)
         {
-            return assignmentRepository.AddAssignment(assignment);
+            return await assignmentRepository.AddAssignmentAsync(assignment);
         }
 
         // PUT api/Assignment
         [HttpPut]
-        public Assignment UpdateAssignment(Assignment assignment)
+        public async Task<Assignment> UpdateAssignment(Assignment assignment)
         {
-            return assignmentRepository.UpdateAssignment(assignment);
+            return await assignmentRepository.UpdateAssignmentAsync(assignment);
         }
 
         // DELETE api/Assignment/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteAssignment(int id)
+        public async Task<ActionResult> DeleteAssignment(int id)
         {
-            if (!assignmentRepository.DeleteAssignment(id))
+            if (!await assignmentRepository.DeleteAssignmentAsync(id))
                 return NotFound();
             return Ok();
         }

@@ -17,16 +17,16 @@ namespace ClassSpace.Controllers
 
         // GET api/Vote
         [HttpGet]
-        public List<Vote> GetVotes()
+        public async Task<List<Vote>> GetVotes()
         {
-            return voteRepository.GetVotes();
+            return await voteRepository.GetVotesAsync();
         }
 
         // GET api/Vote/3/7
         [HttpGet("{questionId}/{studentId}")]
-        public ActionResult<Vote> GetVote(int questionId, int studentId)
+        public async Task<ActionResult<Vote>> GetVote(int questionId, int studentId)
         {
-            Vote vote = voteRepository.GetVote(questionId, studentId);
+            Vote vote = await voteRepository.GetVoteAsync(questionId, studentId);
             if (vote == null)
                 return NotFound();
             return vote;
@@ -34,23 +34,23 @@ namespace ClassSpace.Controllers
 
         // GET api/Vote/question/3
         [HttpGet("question/{questionId}")]
-        public List<Vote> GetVotesByQuestion(int questionId)
+        public async Task<List<Vote>> GetVotesByQuestion(int questionId)
         {
-            return voteRepository.GetVotesByQuestion(questionId);
+            return await voteRepository.GetVotesByQuestionAsync(questionId);
         }
 
         // POST api/Vote
         [HttpPost]
-        public Vote AddVote(Vote vote)
+        public async Task<Vote> AddVote(Vote vote)
         {
-            return voteRepository.AddVote(vote);
+            return await voteRepository.AddVoteAsync(vote);
         }
 
         // DELETE api/Vote/3/7
         [HttpDelete("{questionId}/{studentId}")]
-        public ActionResult DeleteVote(int questionId, int studentId)
+        public async Task<ActionResult> DeleteVote(int questionId, int studentId)
         {
-            if (!voteRepository.DeleteVote(questionId, studentId))
+            if (!await voteRepository.DeleteVoteAsync(questionId, studentId))
                 return NotFound();
             return Ok();
         }

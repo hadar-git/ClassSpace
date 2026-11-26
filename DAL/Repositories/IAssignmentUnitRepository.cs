@@ -4,10 +4,10 @@ namespace DAL.Repositories
 {
     public interface IAssignmentUnitRepository
     {
-        List<AssignmentUnit> GetAssignmentUnits();                          // כל הקישורים
-        AssignmentUnit GetAssignmentUnit(int assignmentId, int unitId);     // קישור אחד
-        List<AssignmentUnit> GetUnitsByAssignment(int assignmentId);        // על אילו יחידות המטלה
-        AssignmentUnit AddAssignmentUnit(AssignmentUnit assignmentUnit);    // הוספה
-        bool DeleteAssignmentUnit(int assignmentId, int unitId);            // מחיקה
+        Task<List<AssignmentUnit>> GetAssignmentUnitsAsync();                          // כל הקישורים
+        Task<AssignmentUnit> GetAssignmentUnitAsync(int assignmentId, int unitId);     // קישור אחד
+        Task<List<AssignmentUnit>> GetUnitsByAssignmentAsync(int assignmentId);        // על אילו יחידות המטלה
+        Task<AssignmentUnit> AddAssignmentUnitAsync(AssignmentUnit assignmentUnit);    // הוספה
+        Task<bool> DeleteAssignmentUnitAsync(int assignmentId, int unitId);            // מחיקה
     }
 }

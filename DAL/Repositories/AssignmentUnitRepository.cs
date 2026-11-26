@@ -12,44 +12,44 @@ namespace DAL.Repositories
             this.db = db;
         }
 
-        public List<AssignmentUnit> GetAssignmentUnits()
+        public async Task<List<AssignmentUnit>> GetAssignmentUnitsAsync()
         {
-            return db.AssignmentUnits
+            return await db.AssignmentUnits
                 .Include(au => au.Assignment)
                 .Include(au => au.Unit)
-                .ToList();
+                .ToListAsync();
         }
 
-        public AssignmentUnit GetAssignmentUnit(int assignmentId, int unitId)
+        public async Task<AssignmentUnit> GetAssignmentUnitAsync(int assignmentId, int unitId)
         {
-            return db.AssignmentUnits
+            return await db.AssignmentUnits
                 .Include(au => au.Assignment)
                 .Include(au => au.Unit)
-                .FirstOrDefault(au => au.AssignmentID == assignmentId && au.UnitID == unitId);
+                .FirstOrDefaultAsync(au => au.AssignmentID == assignmentId && au.UnitID == unitId);
         }
 
-        public List<AssignmentUnit> GetUnitsByAssignment(int assignmentId)
+        public async Task<List<AssignmentUnit>> GetUnitsByAssignmentAsync(int assignmentId)
         {
-            return db.AssignmentUnits
+            return await db.AssignmentUnits
                 .Include(au => au.Unit)
                 .Where(au => au.AssignmentID == assignmentId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public AssignmentUnit AddAssignmentUnit(AssignmentUnit assignmentUnit)
+        public async Task<AssignmentUnit> AddAssignmentUnitAsync(AssignmentUnit assignmentUnit)
         {
             db.AssignmentUnits.Add(assignmentUnit);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return assignmentUnit;
         }
 
-        public bool DeleteAssignmentUnit(int assignmentId, int unitId)
+        public async Task<bool> DeleteAssignmentUnitAsync(int assignmentId, int unitId)
         {
-            AssignmentUnit assignmentUnit = db.AssignmentUnits.FirstOrDefault(au => au.AssignmentID == assignmentId && au.UnitID == unitId);
+            AssignmentUnit assignmentUnit = await db.AssignmentUnits.FirstOrDefaultAsync(au => au.AssignmentID == assignmentId && au.UnitID == unitId);
             if (assignmentUnit == null)
                 return false;
             db.AssignmentUnits.Remove(assignmentUnit);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return true;
         }
     }

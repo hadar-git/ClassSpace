@@ -9,13 +9,13 @@ namespace DAL.Repositories
 {
     public interface IUserRepository
     {
-        List<User> GetUsers();                   // כל המשתמשות
-        User GetUser(int id);                    // משתמשת לפי קוד
-        User AddUser(User user);                 // הוספה
-        User UpdateUser(User user);              // עדכון
-        bool DeleteUser(int id);                 // מחיקה לפי קוד ומחזיר האם נמחקה
+        Task<List<User>> GetUsersAsync();                   // כל המשתמשות
+        Task<User> GetUserAsync(int id);                    // משתמשת לפי קוד
+        Task<User> AddUserAsync(User user);                 // הוספה
+        Task<User> UpdateUserAsync(User user);              // עדכון
+        Task<bool> DeleteUserAsync(int id);                 // מחיקה לפי קוד ומחזיר האם נמחקה
 
-        User GetUserByEmail(string email);       // בשביל התחברות
-        List<User> GetUsersByRole(Role role);    // רשימת כל המורות
+        Task<User> GetUserByEmailAsync(string email);       // בשביל התחברות
+        Task<List<User>> GetUsersByRoleAsync(Role role);    // רשימת כל המורות
     }
 }

@@ -17,16 +17,16 @@ namespace ClassSpace.Controllers
 
         // GET api/Subject
         [HttpGet]
-        public List<Subject> GetSubjects()
+        public async Task<List<Subject>> GetSubjects()
         {
-            return subjectRepository.GetSubjects();
+            return await subjectRepository.GetSubjectsAsync();
         }
 
         // GET api/Subject/5
         [HttpGet("{id}")]
-        public ActionResult<Subject> GetSubject(int id)
+        public async Task<ActionResult<Subject>> GetSubject(int id)
         {
-            Subject subject = subjectRepository.GetSubject(id);
+            Subject subject = await subjectRepository.GetSubjectAsync(id);
             if (subject == null)
                 return NotFound();
             return subject;
@@ -34,23 +34,23 @@ namespace ClassSpace.Controllers
 
         // POST api/Subject
         [HttpPost]
-        public Subject AddSubject(Subject subject)
+        public async Task<Subject> AddSubject(Subject subject)
         {
-            return subjectRepository.AddSubject(subject);
+            return await subjectRepository.AddSubjectAsync(subject);
         }
 
         // PUT api/Subject
         [HttpPut]
-        public Subject UpdateSubject(Subject subject)
+        public async Task<Subject> UpdateSubject(Subject subject)
         {
-            return subjectRepository.UpdateSubject(subject);
+            return await subjectRepository.UpdateSubjectAsync(subject);
         }
 
         // DELETE api/Subject/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteSubject(int id)
+        public async Task<ActionResult> DeleteSubject(int id)
         {
-            if (!subjectRepository.DeleteSubject(id))
+            if (!await subjectRepository.DeleteSubjectAsync(id))
                 return NotFound();
             return Ok();
         }

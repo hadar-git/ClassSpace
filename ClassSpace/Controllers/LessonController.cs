@@ -17,16 +17,16 @@ namespace ClassSpace.Controllers
 
         // GET api/Lesson
         [HttpGet]
-        public List<Lesson> GetLessons()
+        public async Task<List<Lesson>> GetLessons()
         {
-            return lessonRepository.GetLessons();
+            return await lessonRepository.GetLessonsAsync();
         }
 
         // GET api/Lesson/5
         [HttpGet("{id}")]
-        public ActionResult<Lesson> GetLesson(int id)
+        public async Task<ActionResult<Lesson>> GetLesson(int id)
         {
-            Lesson lesson = lessonRepository.GetLesson(id);
+            Lesson lesson = await lessonRepository.GetLessonAsync(id);
             if (lesson == null)
                 return NotFound();
             return lesson;
@@ -34,23 +34,23 @@ namespace ClassSpace.Controllers
 
         // POST api/Lesson
         [HttpPost]
-        public Lesson AddLesson(Lesson lesson)
+        public async Task<Lesson> AddLesson(Lesson lesson)
         {
-            return lessonRepository.AddLesson(lesson);
+            return await lessonRepository.AddLessonAsync(lesson);
         }
 
         // PUT api/Lesson
         [HttpPut]
-        public Lesson UpdateLesson(Lesson lesson)
+        public async Task<Lesson> UpdateLesson(Lesson lesson)
         {
-            return lessonRepository.UpdateLesson(lesson);
+            return await lessonRepository.UpdateLessonAsync(lesson);
         }
 
         // DELETE api/Lesson/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteLesson(int id)
+        public async Task<ActionResult> DeleteLesson(int id)
         {
-            if (!lessonRepository.DeleteLesson(id))
+            if (!await lessonRepository.DeleteLessonAsync(id))
                 return NotFound();
             return Ok();
         }

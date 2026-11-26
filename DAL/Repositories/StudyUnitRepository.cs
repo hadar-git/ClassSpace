@@ -12,52 +12,52 @@ namespace DAL.Repositories
             this.db = db;
         }
 
-        public List<StudyUnit> GetStudyUnits()
+        public async Task<List<StudyUnit>> GetStudyUnitsAsync()
         {
-            return db.StudyUnits
+            return await db.StudyUnits
                 .Include(s => s.Subject)
                 .OrderBy(s => s.OrderIndex)
-                .ToList();
+                .ToListAsync();
         }
 
-        public StudyUnit GetStudyUnit(int id)
+        public async Task<StudyUnit> GetStudyUnitAsync(int id)
         {
-            return db.StudyUnits
+            return await db.StudyUnits
                 .Include(s => s.Subject)
-                .FirstOrDefault(s => s.UnitId == id);
+                .FirstOrDefaultAsync(s => s.UnitId == id);
         }
 
-        public StudyUnit AddStudyUnit(StudyUnit studyUnit)
+        public async Task<StudyUnit> AddStudyUnitAsync(StudyUnit studyUnit)
         {
-            db.StudyUnits.Add(studyUnit);
-            db.SaveChanges();
+            await db.StudyUnits.AddAsync(studyUnit);
+            await db.SaveChangesAsync();
             return studyUnit;
         }
 
-        public StudyUnit UpdateStudyUnit(StudyUnit studyUnit)
+        public async Task<StudyUnit> UpdateStudyUnitAsync(StudyUnit studyUnit)
         {
             db.StudyUnits.Update(studyUnit);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return studyUnit;
         }
 
-        public bool DeleteStudyUnit(int id)
+        public async Task<bool> DeleteStudyUnitAsync(int id)
         {
-            StudyUnit studyUnit = db.StudyUnits.FirstOrDefault(s => s.UnitId == id);
+            StudyUnit studyUnit = await db.StudyUnits.FirstOrDefaultAsync(s => s.UnitId == id);
             if (studyUnit == null)
                 return false;
             db.StudyUnits.Remove(studyUnit);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return true;
         }
 
-        public List<StudyUnit> GetStudyUnitsBySubject(int subjectId)
+        public async Task<List<StudyUnit>> GetStudyUnitsBySubjectAsync(int subjectId)
         {
-            return db.StudyUnits
+            return await db.StudyUnits
                 .Include(s => s.Subject)
                 .Where(s => s.SubjectID == subjectId)
                 .OrderBy(s => s.OrderIndex)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

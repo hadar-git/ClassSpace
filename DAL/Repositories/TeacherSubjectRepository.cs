@@ -13,66 +13,66 @@ namespace DAL.Repositories
         }
 
         // Include = להביא יחד עם השיוך גם את המורה והמקצוע עצמם (כמו אצל המורה עם Category)
-        public List<TeacherSubject> GetTeacherSubjects()
+        public async Task<List<TeacherSubject>> GetTeacherSubjectsAsync()
         {
-            return db.TeacherSubjects
+            return await db.TeacherSubjects
                 .Include(ts => ts.Teacher)
                 .Include(ts => ts.Subject)
                 .Include(ts => ts.Lesson)
-                .ToList();
+                .ToListAsync();
         }
 
-        public TeacherSubject GetTeacherSubject(int id)
+        public async Task<TeacherSubject> GetTeacherSubjectAsync(int id)
         {
-            return db.TeacherSubjects
+            return await db.TeacherSubjects
                 .Include(ts => ts.Teacher)
                 .Include(ts => ts.Subject)
                 .Include(ts => ts.Lesson)
-                .FirstOrDefault(ts => ts.TeacherSubjectId == id);
+                .FirstOrDefaultAsync(ts => ts.TeacherSubjectId == id);
         }
 
-        public TeacherSubject AddTeacherSubject(TeacherSubject ts)
+        public async Task<TeacherSubject> AddTeacherSubjectAsync(TeacherSubject ts)
         {
-            db.TeacherSubjects.Add(ts);
-            db.SaveChanges();
+            await db.TeacherSubjects.AddAsync(ts);
+            await db.SaveChangesAsync();
             return ts;
         }
 
-        public bool DeleteTeacherSubject(int id)
+        public async Task<bool> DeleteTeacherSubjectAsync(int id)
         {
-            TeacherSubject ts = db.TeacherSubjects.FirstOrDefault(t => t.TeacherSubjectId == id);
+            TeacherSubject ts = await db.TeacherSubjects.FirstOrDefaultAsync(t => t.TeacherSubjectId == id);
             if (ts == null)
                 return false;
             db.TeacherSubjects.Remove(ts);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return true;
         }
 
-        public List<TeacherSubject> GetByTeacher(int teacherId)
+        public async Task<List<TeacherSubject>> GetByTeacherAsync(int teacherId)
         {
-            return db.TeacherSubjects
+            return await db.TeacherSubjects
                 .Include(ts => ts.Subject)
                 .Include(ts => ts.Lesson)
                 .Where(ts => ts.TeacherID == teacherId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public List<TeacherSubject> GetBySubject(int subjectId)
+        public async Task<List<TeacherSubject>> GetBySubjectAsync(int subjectId)
         {
-            return db.TeacherSubjects
+            return await db.TeacherSubjects
                 .Include(ts => ts.Teacher)
                 .Include(ts => ts.Lesson)
                 .Where(ts => ts.SubjectID == subjectId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public List<TeacherSubject> GetByLesson(int lessonId)
+        public async Task<List<TeacherSubject>> GetByLessonAsync(int lessonId)
         {
-            return db.TeacherSubjects
+            return await db.TeacherSubjects
                 .Include(ts => ts.Teacher)
                 .Include(ts => ts.Subject)
                 .Where(ts => ts.LessonID == lessonId)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

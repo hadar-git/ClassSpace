@@ -4,10 +4,10 @@ namespace DAL.Repositories
 {
     public interface ILessonRepository
     {
-        List<Lesson> GetLessons();         // כל הכיתות
-        Lesson GetLesson(int id);           // כיתה לפי קוד
-        Lesson AddLesson(Lesson lesson);      // הוספה
-        Lesson UpdateLesson(Lesson lesson);   // עדכון
-        bool DeleteLesson(int id);         // מחיקה לפי קוד
+        Task<List<Lesson>> GetLessonsAsync();            // כל הכיתות
+        Task<Lesson> GetLessonAsync(int id);             // כיתה לפי קוד
+        Task<Lesson> AddLessonAsync(Lesson lesson);      // הוספה
+        Task<Lesson> UpdateLessonAsync(Lesson lesson);   // עדכון
+        Task<bool> DeleteLessonAsync(int id);            // מחיקה לפי קוד
     }
 }

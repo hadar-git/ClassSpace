@@ -1,4 +1,5 @@
 ﻿using DAL.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
@@ -11,48 +12,48 @@ namespace DAL.Repositories
             this.db = db;
         }
 
-        public List<User> GetUsers()
+        public async Task<List<User>> GetUsersAsync()
         {
-            return db.Users.ToList();
+            return await db.Users.ToListAsync();
         }
 
-        public User GetUser(int id)
+        public async Task<User> GetUserAsync(int id)
         {
-            return db.Users.FirstOrDefault(u => u.UserID == id);
+            return await db.Users.FirstOrDefaultAsync(u => u.UserID == id);
         }
 
-        public User AddUser(User user)
+        public async Task<User> AddUserAsync(User user)
         {
-            db.Users.Add(user);
-            db.SaveChanges();   
+            await db.Users.AddAsync(user);
+            await db.SaveChangesAsync();
             return user;
         }
 
-        public User UpdateUser(User user)
+        public async Task<User> UpdateUserAsync(User user)
         {
             db.Users.Update(user);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return user;
         }
 
-        public bool DeleteUser(int id)
+        public async Task<bool> DeleteUserAsync(int id)
         {
-            User user = GetUser(id);
+            User user = await GetUserAsync(id);
             if (user == null)
                 return false;
             db.Users.Remove(user);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return true;
         }
 
-        public User GetUserByEmail(string email)
+        public async Task<User> GetUserByEmailAsync(string email)
         {
-            return db.Users.FirstOrDefault(u => u.Email == email);
+            return await db.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
 
-        public List<User> GetUsersByRole(Role role)
+        public async Task<List<User>> GetUsersByRoleAsync(Role role)
         {
-            return db.Users.Where(u => u.Role == role).ToList();
+            return await db.Users.Where(u => u.Role == role).ToListAsync();
         }
     }
 }

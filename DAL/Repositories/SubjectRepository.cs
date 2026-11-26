@@ -1,4 +1,5 @@
 ﻿using DAL.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace DAL.Repositories
 {
@@ -11,37 +12,37 @@ namespace DAL.Repositories
             this.db = db;
         }
 
-        public List<Subject> GetSubjects()
+        public async Task<List<Subject>> GetSubjectsAsync()
         {
-            return db.Subjects.ToList();
+            return await db.Subjects.ToListAsync();
         }
 
-        public Subject GetSubject(int id)
+        public async Task<Subject> GetSubjectAsync(int id)
         {
-            return db.Subjects.FirstOrDefault(s => s.SubjectId == id);
+            return await db.Subjects.FirstOrDefaultAsync(s => s.SubjectId == id);
         }
 
-        public Subject AddSubject(Subject subject)
+        public async Task<Subject> AddSubjectAsync(Subject subject)
         {
-            db.Subjects.Add(subject);
-            db.SaveChanges();
+            await db.Subjects.AddAsync(subject);
+            await db.SaveChangesAsync();
             return subject;
         }
 
-        public Subject UpdateSubject(Subject subject)
+        public async Task<Subject> UpdateSubjectAsync(Subject subject)
         {
             db.Subjects.Update(subject);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return subject;
         }
 
-        public bool DeleteSubject(int id)
+        public async Task<bool> DeleteSubjectAsync(int id)
         {
-            Subject subject = GetSubject(id);
+            Subject subject = await GetSubjectAsync(id);
             if (subject == null)
                 return false;
             db.Subjects.Remove(subject);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return true;
         }
     }

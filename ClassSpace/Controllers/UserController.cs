@@ -16,42 +16,42 @@ namespace ClassSpace.Controllers
         }
 
         [HttpGet]
-        public List<User> GetUsers()
+        public async Task<List<User>> GetUsers()
         {
-            return userRepository.GetUsers();
+            return await userRepository.GetUsersAsync();
         }
 
         [HttpGet("{id}")]
-        public ActionResult<User> GetUser(int id)
+        public async Task<ActionResult<User>> GetUser(int id)
         {
-            User user = userRepository.GetUser(id);
+            User user = await userRepository.GetUserAsync(id);
             if (user == null)
                 return NotFound();
             return user;
         }
 
         [HttpGet("role/{role}")]
-        public List<User> GetUsersByRole(Role role)
+        public async Task<List<User>> GetUsersByRole(Role role)
         {
-            return userRepository.GetUsersByRole(role);
+            return await userRepository.GetUsersByRoleAsync(role);
         }
 
         [HttpPost]
-        public User AddUser(User user)
+        public async Task<User> AddUser(User user)
         {
-            return userRepository.AddUser(user);
+            return await userRepository.AddUserAsync(user);
         }
 
         [HttpPut]
-        public User UpdateUser(User user)
+        public async Task<User> UpdateUser(User user)
         {
-            return userRepository.UpdateUser(user);
+            return await userRepository.UpdateUserAsync(user);
         }
 
         [HttpDelete("{id}")]
-        public ActionResult DeleteUser(int id)
+        public async Task<ActionResult> DeleteUser(int id)
         {
-            if (!userRepository.DeleteUser(id))
+            if (!await userRepository.DeleteUserAsync(id))
                 return NotFound();
             return Ok();
         }

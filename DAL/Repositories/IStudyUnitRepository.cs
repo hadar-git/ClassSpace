@@ -4,11 +4,11 @@ namespace DAL.Repositories
 {
     public interface IStudyUnitRepository
     {
-        List<StudyUnit> GetStudyUnits();                         // כל היחידות
-        StudyUnit GetStudyUnit(int id);                          // יחידה לפי קוד
-        StudyUnit AddStudyUnit(StudyUnit studyUnit);             // הוספה
-        StudyUnit UpdateStudyUnit(StudyUnit studyUnit);          // עדכון
-        bool DeleteStudyUnit(int id);                            // מחיקה לפי קוד
-        List<StudyUnit> GetStudyUnitsBySubject(int subjectId);   // היחידות של מקצוע, לפי סדר הפרקים
+        Task<List<StudyUnit>> GetStudyUnitsAsync();                         // כל היחידות
+        Task<StudyUnit> GetStudyUnitAsync(int id);                          // יחידה לפי קוד
+        Task<StudyUnit> AddStudyUnitAsync(StudyUnit studyUnit);             // הוספה
+        Task<StudyUnit> UpdateStudyUnitAsync(StudyUnit studyUnit);          // עדכון
+        Task<bool> DeleteStudyUnitAsync(int id);                            // מחיקה לפי קוד
+        Task<List<StudyUnit>> GetStudyUnitsBySubjectAsync(int subjectId);   // היחידות של מקצוע, לפי סדר הפרקים
     }
 }

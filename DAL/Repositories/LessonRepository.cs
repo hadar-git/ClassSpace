@@ -12,39 +12,40 @@ namespace DAL.Repositories
             this.db = db;
         }
 
-        public List<Lesson> GetLessons()
+        public async Task<List<Lesson>> GetLessonsAsync()
         {
-            return db.Lessons
-                .ToList();
+            return await db.Lessons
+                .ToListAsync();
         }
 
-        public Lesson GetLesson(int id)
+        public async Task<Lesson> GetLessonAsync(int id)
         {
-            return db.Lessons
-                .FirstOrDefault(c => c.LessonId == id);
+            return await db.Lessons
+                .FirstOrDefaultAsync(c => c.LessonId == id);
         }
 
-        public Lesson AddLesson(Lesson lesson)
+        public async Task<Lesson> AddLessonAsync(Lesson lesson)
         {
-            db.Lessons.Add(lesson);
-            db.SaveChanges();
+            await db.Lessons.AddAsync(lesson);
+            await db.SaveChangesAsync();
             return lesson;
         }
 
-        public Lesson UpdateLesson(Lesson lesson)
+        public async Task<Lesson> UpdateLessonAsync(Lesson lesson)
         {
             db.Lessons.Update(lesson);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return lesson;
         }
 
-        public bool DeleteLesson(int id)
+        public async Task<bool> DeleteLessonAsync(int id)
         {
-            Lesson lesson = db.Lessons.FirstOrDefault(c => c.LessonId == id);
+            Lesson lesson = await db.Lessons.FirstOrDefaultAsync(c => c.LessonId == id);
             if (lesson == null)
                 return false;
+
             db.Lessons.Remove(lesson);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return true;
         }
     }

@@ -4,14 +4,14 @@ namespace DAL.Repositories
 {
     public interface ITeacherSubjectRepository
     {
-        List<TeacherSubject> GetTeacherSubjects();                   // כל השיוכים
-        TeacherSubject GetTeacherSubject(int id);                    // שיוך לפי קוד
-        TeacherSubject AddTeacherSubject(TeacherSubject ts);         // הוספה
-        bool DeleteTeacherSubject(int id);                           // מחיקה לפי קוד
+        Task<List<TeacherSubject>> GetTeacherSubjectsAsync();                   // כל השיוכים
+        Task<TeacherSubject> GetTeacherSubjectAsync(int id);                    // שיוך לפי קוד
+        Task<TeacherSubject> AddTeacherSubjectAsync(TeacherSubject ts);         // הוספה
+        Task<bool> DeleteTeacherSubjectAsync(int id);                           // מחיקה לפי קוד
 
         // לפי הצרכים של הפרויקט
-        List<TeacherSubject> GetByTeacher(int teacherId);            // אילו מקצועות מלמדת מורה
-        List<TeacherSubject> GetBySubject(int subjectId);            // אילו מורות מלמדות מקצוע
-        List<TeacherSubject> GetByLesson(int lessonId);                // מה לומדים בכיתה
+        Task<List<TeacherSubject>> GetByTeacherAsync(int teacherId);            // אילו מקצועות מלמדת מורה
+        Task<List<TeacherSubject>> GetBySubjectAsync(int subjectId);            // אילו מורות מלמדות מקצוע
+        Task<List<TeacherSubject>> GetByLessonAsync(int lessonId);              // מה לומדים בכיתה
     }
 }

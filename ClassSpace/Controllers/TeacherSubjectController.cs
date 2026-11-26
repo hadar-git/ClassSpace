@@ -17,16 +17,16 @@ namespace ClassSpace.Controllers
 
         // GET api/TeacherSubject
         [HttpGet]
-        public List<TeacherSubject> GetTeacherSubjects()
+        public async Task<List<TeacherSubject>> GetTeacherSubjects()
         {
-            return teacherSubjectRepository.GetTeacherSubjects();
+            return await teacherSubjectRepository.GetTeacherSubjectsAsync();
         }
 
         // GET api/TeacherSubject/5
         [HttpGet("{id}")]
-        public ActionResult<TeacherSubject> GetTeacherSubject(int id)
+        public async Task<ActionResult<TeacherSubject>> GetTeacherSubject(int id)
         {
-            TeacherSubject ts = teacherSubjectRepository.GetTeacherSubject(id);
+            TeacherSubject ts = await teacherSubjectRepository.GetTeacherSubjectAsync(id);
             if (ts == null)
                 return NotFound();
             return ts;
@@ -34,37 +34,37 @@ namespace ClassSpace.Controllers
 
         // GET api/TeacherSubject/teacher/5 - המקצועות של מורה
         [HttpGet("teacher/{teacherId}")]
-        public List<TeacherSubject> GetByTeacher(int teacherId)
+        public async Task<List<TeacherSubject>> GetByTeacher(int teacherId)
         {
-            return teacherSubjectRepository.GetByTeacher(teacherId);
+            return await teacherSubjectRepository.GetByTeacherAsync(teacherId);
         }
 
         // GET api/TeacherSubject/subject/5 - המורות של מקצוע
         [HttpGet("subject/{subjectId}")]
-        public List<TeacherSubject> GetBySubject(int subjectId)
+        public async Task<List<TeacherSubject>> GetBySubject(int subjectId)
         {
-            return teacherSubjectRepository.GetBySubject(subjectId);
+            return await teacherSubjectRepository.GetBySubjectAsync(subjectId);
         }
 
         // GET api/TeacherSubject/lesson/5 - מה לומדים בכיתה
         [HttpGet("lesson/{lessonId}")]
-        public List<TeacherSubject> GetByLesson(int lessonId)
+        public async Task<List<TeacherSubject>> GetByLesson(int lessonId)
         {
-            return teacherSubjectRepository.GetByLesson(lessonId);
+            return await teacherSubjectRepository.GetByLessonAsync(lessonId);
         }
 
         // POST api/TeacherSubject
         [HttpPost]
-        public TeacherSubject AddTeacherSubject(TeacherSubject ts)
+        public async Task<TeacherSubject> AddTeacherSubject(TeacherSubject ts)
         {
-            return teacherSubjectRepository.AddTeacherSubject(ts);
+            return await teacherSubjectRepository.AddTeacherSubjectAsync(ts);
         }
 
         // DELETE api/TeacherSubject/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteTeacherSubject(int id)
+        public async Task<ActionResult> DeleteTeacherSubject(int id)
         {
-            if (!teacherSubjectRepository.DeleteTeacherSubject(id))
+            if (!await teacherSubjectRepository.DeleteTeacherSubjectAsync(id))
                 return NotFound();
             return Ok();
         }

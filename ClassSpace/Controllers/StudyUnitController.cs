@@ -17,16 +17,16 @@ namespace ClassSpace.Controllers
 
         // GET api/StudyUnit
         [HttpGet]
-        public List<StudyUnit> GetStudyUnits()
+        public async Task<List<StudyUnit>> GetStudyUnits()
         {
-            return studyUnitRepository.GetStudyUnits();
+            return await studyUnitRepository.GetStudyUnitsAsync();
         }
 
         // GET api/StudyUnit/5
         [HttpGet("{id}")]
-        public ActionResult<StudyUnit> GetStudyUnit(int id)
+        public async Task<ActionResult<StudyUnit>> GetStudyUnit(int id)
         {
-            StudyUnit studyUnit = studyUnitRepository.GetStudyUnit(id);
+            StudyUnit studyUnit = await studyUnitRepository.GetStudyUnitAsync(id);
             if (studyUnit == null)
                 return NotFound();
             return studyUnit;
@@ -34,30 +34,30 @@ namespace ClassSpace.Controllers
 
         // GET api/StudyUnit/subject/5 - היחידות של מקצוע, לפי סדר הפרקים
         [HttpGet("subject/{subjectId}")]
-        public List<StudyUnit> GetStudyUnitsBySubject(int subjectId)
+        public async Task<List<StudyUnit>> GetStudyUnitsBySubject(int subjectId)
         {
-            return studyUnitRepository.GetStudyUnitsBySubject(subjectId);
+            return await studyUnitRepository.GetStudyUnitsBySubjectAsync(subjectId);
         }
 
         // POST api/StudyUnit
         [HttpPost]
-        public StudyUnit AddStudyUnit(StudyUnit studyUnit)
+        public async Task<StudyUnit> AddStudyUnit(StudyUnit studyUnit)
         {
-            return studyUnitRepository.AddStudyUnit(studyUnit);
+            return await studyUnitRepository.AddStudyUnitAsync(studyUnit);
         }
 
         // PUT api/StudyUnit
         [HttpPut]
-        public StudyUnit UpdateStudyUnit(StudyUnit studyUnit)
+        public async Task<StudyUnit> UpdateStudyUnit(StudyUnit studyUnit)
         {
-            return studyUnitRepository.UpdateStudyUnit(studyUnit);
+            return await studyUnitRepository.UpdateStudyUnitAsync(studyUnit);
         }
 
         // DELETE api/StudyUnit/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteStudyUnit(int id)
+        public async Task<ActionResult> DeleteStudyUnit(int id)
         {
-            if (!studyUnitRepository.DeleteStudyUnit(id))
+            if (!await studyUnitRepository.DeleteStudyUnitAsync(id))
                 return NotFound();
             return Ok();
         }

@@ -21,7 +21,7 @@ builder.Services.AddDbContext<ClassSpaceDB>(options =>
 
 //==========DAL================
 builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IClassRepository, ClassRepository>();
+builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<ISubjectRepository, SubjectRepository>();
 builder.Services.AddScoped<ITeacherSubjectRepository, TeacherSubjectRepository>();
 builder.Services.AddScoped<IStudyUnitRepository, StudyUnitRepository>();

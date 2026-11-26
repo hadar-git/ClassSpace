@@ -67,21 +67,21 @@ namespace DAL.Migrations
                     b.ToTable("AssignmentUnits");
                 });
 
-            modelBuilder.Entity("DAL.Data.Class", b =>
+            modelBuilder.Entity("DAL.Data.Lesson", b =>
                 {
-                    b.Property<int>("ClassId")
+                    b.Property<int>("LessonId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ClassId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LessonId"));
 
-                    b.Property<string>("ClassName")
+                    b.Property<string>("LessonName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ClassId");
+                    b.HasKey("LessonId");
 
-                    b.ToTable("Classes");
+                    b.ToTable("Lessons");
                 });
 
             modelBuilder.Entity("DAL.Data.Material", b =>
@@ -228,7 +228,7 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TeacherSubjectId"));
 
-                    b.Property<int>("ClassID")
+                    b.Property<int>("LessonID")
                         .HasColumnType("int");
 
                     b.Property<int>("SubjectID")
@@ -239,7 +239,7 @@ namespace DAL.Migrations
 
                     b.HasKey("TeacherSubjectId");
 
-                    b.HasIndex("ClassID");
+                    b.HasIndex("LessonID");
 
                     b.HasIndex("SubjectID");
 
@@ -256,9 +256,6 @@ namespace DAL.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserID"));
 
-                    b.Property<int?>("ClassID")
-                        .HasColumnType("int");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -266,6 +263,9 @@ namespace DAL.Migrations
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("LessonID")
+                        .HasColumnType("int");
 
                     b.Property<string>("Password")
                         .IsRequired()
@@ -276,7 +276,7 @@ namespace DAL.Migrations
 
                     b.HasKey("UserID");
 
-                    b.HasIndex("ClassID");
+                    b.HasIndex("LessonID");
 
                     b.ToTable("Users");
                 });
@@ -403,9 +403,9 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Data.TeacherSubject", b =>
                 {
-                    b.HasOne("DAL.Data.Class", "Class")
+                    b.HasOne("DAL.Data.Lesson", "Lesson")
                         .WithMany()
-                        .HasForeignKey("ClassID")
+                        .HasForeignKey("LessonID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -421,7 +421,7 @@ namespace DAL.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Class");
+                    b.Navigation("Lesson");
 
                     b.Navigation("Subject");
 
@@ -430,11 +430,11 @@ namespace DAL.Migrations
 
             modelBuilder.Entity("DAL.Data.User", b =>
                 {
-                    b.HasOne("DAL.Data.Class", "Class")
+                    b.HasOne("DAL.Data.Lesson", "Lesson")
                         .WithMany()
-                        .HasForeignKey("ClassID");
+                        .HasForeignKey("LessonID");
 
-                    b.Navigation("Class");
+                    b.Navigation("Lesson");
                 });
 
             modelBuilder.Entity("DAL.Data.Vote", b =>

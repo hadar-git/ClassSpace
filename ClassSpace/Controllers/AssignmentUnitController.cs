@@ -1,5 +1,5 @@
-﻿using DAL.Data;
-using BLL.Services;
+﻿using BLL.Services;
+using DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClassSpace.Controllers
@@ -17,33 +17,33 @@ namespace ClassSpace.Controllers
 
         // GET api/AssignmentUnit
         [HttpGet]
-        public async Task<List<AssignmentUnit>> GetAssignmentUnits()
+        public async Task<List<AssignmentUnitDto>> GetAssignmentUnits()
         {
             return await assignmentUnitService.GetAssignmentUnitsAsync();
         }
 
         // GET api/AssignmentUnit/3/7
         [HttpGet("{assignmentId}/{unitId}")]
-        public async Task<ActionResult<AssignmentUnit>> GetAssignmentUnit(int assignmentId, int unitId)
+        public async Task<ActionResult<AssignmentUnitDto>> GetAssignmentUnit(int assignmentId, int unitId)
         {
-            AssignmentUnit assignmentUnit = await assignmentUnitService.GetAssignmentUnitAsync(assignmentId, unitId);
+            AssignmentUnitDto? assignmentUnit = await assignmentUnitService.GetAssignmentUnitAsync(assignmentId, unitId);
             if (assignmentUnit == null)
                 return NotFound();
             return assignmentUnit;
         }
 
-        // GET api/AssignmentUnit/assignment/3 - על אילו יחידות המטלה
+        // GET api/AssignmentUnit/assignment/3
         [HttpGet("assignment/{assignmentId}")]
-        public async Task<List<AssignmentUnit>> GetUnitsByAssignment(int assignmentId)
+        public async Task<List<AssignmentUnitDto>> GetUnitsByAssignment(int assignmentId)
         {
             return await assignmentUnitService.GetUnitsByAssignmentAsync(assignmentId);
         }
 
         // POST api/AssignmentUnit
         [HttpPost]
-        public async Task<AssignmentUnit> AddAssignmentUnit(AssignmentUnit assignmentUnit)
+        public async Task<AssignmentUnitDto> AddAssignmentUnit(AssignmentUnitPostDto assignmentUnitDto)
         {
-            return await assignmentUnitService.AddAssignmentUnitAsync(assignmentUnit);
+            return await assignmentUnitService.AddAssignmentUnitAsync(assignmentUnitDto);
         }
 
         // DELETE api/AssignmentUnit/3/7

@@ -1,35 +1,52 @@
-﻿using DAL.Data;
+﻿using AutoMapper;
+using DAL.Data;
 using DAL.Repositories;
+using DTO;
 
 namespace BLL.Services
 {
     public class MaterialService : IMaterialService
     {
         private IMaterialRepository materialRepository;
+        private IMapper mapper;
 
-        public MaterialService(IMaterialRepository materialRepository)
+        public MaterialService(IMaterialRepository materialRepository, IMapper mapper)
         {
             this.materialRepository = materialRepository;
+            this.mapper = mapper;
         }
 
-        public async Task<List<Material>> GetMaterialsAsync()
+        public async Task<List<MaterialDto>> GetMaterialsAsync()
         {
-            return await materialRepository.GetMaterialsAsync();
+            List<Material> materials = await materialRepository.GetMaterialsAsync();
+            return mapper.Map<List<MaterialDto>>(materials);
         }
 
-        public async Task<Material> GetMaterialAsync(int id)
+        public async Task<MaterialDto?> GetMaterialAsync(int id)
         {
-            return await materialRepository.GetMaterialAsync(id);
+            Material material = await materialRepository.GetMaterialAsync(id);
+            if (material == null)
+                return null;
+            return mapper.Map<MaterialDto>(material);
         }
 
-        public async Task<Material> AddMaterialAsync(Material material)
+        public async Task<MaterialDto> AddMaterialAsync(MaterialPostDto materialDto)
         {
-            return await materialRepository.AddMaterialAsync(material);
+            Material material = mapper.Map<Material>(materialDto);
+            material.UploadedAt = DateTime.Now;
+            await materialRepository.AddMaterialAsync(material);
+            Material saved = await materialRepository.GetMaterialAsync(material.MaterialId);
+            return mapper.Map<MaterialDto>(saved);
         }
 
-        public async Task<Material> UpdateMaterialAsync(Material material)
+        public async Task<bool> UpdateMaterialAsync(int id, MaterialUpdateDto materialDto)
         {
-            return await materialRepository.UpdateMaterialAsync(material);
+            Material material = await materialRepository.GetMaterialAsync(id);
+            if (material == null)
+                return false;
+            mapper.Map(materialDto, material);
+            await materialRepository.UpdateMaterialAsync(material);
+            return true;
         }
 
         public async Task<bool> DeleteMaterialAsync(int id)
@@ -37,19 +54,22 @@ namespace BLL.Services
             return await materialRepository.DeleteMaterialAsync(id);
         }
 
-        public async Task<List<Material>> GetMaterialsByUnitAsync(int unitId)
+        public async Task<List<MaterialDto>> GetMaterialsByUnitAsync(int unitId)
         {
-            return await materialRepository.GetMaterialsByUnitAsync(unitId);
+            List<Material> materials = await materialRepository.GetMaterialsByUnitAsync(unitId);
+            return mapper.Map<List<MaterialDto>>(materials);
         }
 
-        public async Task<List<Material>> GetMaterialsByAssignmentAsync(int assignmentId)
+        public async Task<List<MaterialDto>> GetMaterialsByAssignmentAsync(int assignmentId)
         {
-            return await materialRepository.GetMaterialsByAssignmentAsync(assignmentId);
+            List<Material> materials = await materialRepository.GetMaterialsByAssignmentAsync(assignmentId);
+            return mapper.Map<List<MaterialDto>>(materials);
         }
 
-        public async Task<List<Material>> GetMaterialsByQuestionAsync(int questionId)
+        public async Task<List<MaterialDto>> GetMaterialsByQuestionAsync(int questionId)
         {
-            return await materialRepository.GetMaterialsByQuestionAsync(questionId);
+            List<Material> materials = await materialRepository.GetMaterialsByQuestionAsync(questionId);
+            return mapper.Map<List<MaterialDto>>(materials);
         }
     }
 }

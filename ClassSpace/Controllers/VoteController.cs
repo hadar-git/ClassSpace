@@ -1,5 +1,5 @@
-﻿using DAL.Data;
-using BLL.Services;
+﻿using BLL.Services;
+using DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClassSpace.Controllers
@@ -17,16 +17,16 @@ namespace ClassSpace.Controllers
 
         // GET api/Vote
         [HttpGet]
-        public async Task<List<Vote>> GetVotes()
+        public async Task<List<VoteDto>> GetVotes()
         {
             return await voteService.GetVotesAsync();
         }
 
         // GET api/Vote/3/7
         [HttpGet("{questionId}/{studentId}")]
-        public async Task<ActionResult<Vote>> GetVote(int questionId, int studentId)
+        public async Task<ActionResult<VoteDto>> GetVote(int questionId, int studentId)
         {
-            Vote vote = await voteService.GetVoteAsync(questionId, studentId);
+            VoteDto? vote = await voteService.GetVoteAsync(questionId, studentId);
             if (vote == null)
                 return NotFound();
             return vote;
@@ -34,16 +34,19 @@ namespace ClassSpace.Controllers
 
         // GET api/Vote/question/3
         [HttpGet("question/{questionId}")]
-        public async Task<List<Vote>> GetVotesByQuestion(int questionId)
+        public async Task<List<VoteDto>> GetVotesByQuestion(int questionId)
         {
             return await voteService.GetVotesByQuestionAsync(questionId);
         }
 
         // POST api/Vote
         [HttpPost]
-        public async Task<Vote> AddVote(Vote vote)
+        public async Task<ActionResult<VoteDto>> AddVote(VotePostDto voteDto)
         {
-            return await voteService.AddVoteAsync(vote);
+            VoteDto? vote = await voteService.AddVoteAsync(voteDto);
+            if (vote == null)
+                return BadRequest();
+            return vote;
         }
 
         // DELETE api/Vote/3/7

@@ -1,40 +1,55 @@
-﻿using DAL.Data;
+﻿using AutoMapper;
+using DAL.Data;
 using DAL.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DTO;
 
 namespace BLL.Services
 {
     public class QuestionService : IQuestionService
     {
         private IQuestionRepository questionRepository;
+        private IMapper mapper;
 
-        public QuestionService(IQuestionRepository questionRepository)
+        public QuestionService(IQuestionRepository questionRepository, IMapper mapper)
         {
             this.questionRepository = questionRepository;
+            this.mapper = mapper;
         }
 
-        public async Task<List<Question>> GetQuestionsAsync()
+        public async Task<List<QuestionDto>> GetQuestionsAsync()
         {
-            return await questionRepository.GetQuestionsAsync();
+            List<Question> questions = await questionRepository.GetQuestionsAsync();
+            return mapper.Map<List<QuestionDto>>(questions);
         }
 
-        public async Task<Question> GetQuestionAsync(int id)
+        public async Task<QuestionDto?> GetQuestionAsync(int id)
         {
-            return await questionRepository.GetQuestionAsync(id);
+            Question question = await questionRepository.GetQuestionAsync(id);
+            if (question == null)
+                return null;
+            return mapper.Map<QuestionDto>(question);
         }
 
-        public async Task<Question> AddQuestionAsync(Question question)
+        public async Task<QuestionDto> AddQuestionAsync(QuestionPostDto questionDto)
         {
-            return await questionRepository.AddQuestionAsync(question);
+            Question question = mapper.Map<Question>(questionDto);
+            question.CreatedAt = DateTime.Now;
+            await questionRepository.AddQuestionAsync(question);
+            Question saved = await questionRepository.GetQuestionAsync(question.QuestionId);
+            return mapper.Map<QuestionDto>(saved);
         }
 
-        public async Task<Question> UpdateQuestionAsync(Question question)
+        public async Task<bool> UpdateQuestionAsync(int id, QuestionUpdateDto questionDto)
         {
-            return await questionRepository.UpdateQuestionAsync(question);
+            Question question = await questionRepository.GetQuestionAsync(id);
+            if (question == null)
+                return false;
+            bool answeredNow = question.AnswerText == null && questionDto.AnswerText != null;
+            mapper.Map(questionDto, question);
+            if (answeredNow)
+                question.AnsweredAt = DateTime.Now;
+            await questionRepository.UpdateQuestionAsync(question);
+            return true;
         }
 
         public async Task<bool> DeleteQuestionAsync(int id)
@@ -42,15 +57,16 @@ namespace BLL.Services
             return await questionRepository.DeleteQuestionAsync(id);
         }
 
-        public async Task<List<Question>> GetQuestionsByUnitAsync(int unitId)
+        public async Task<List<QuestionDto>> GetQuestionsByUnitAsync(int unitId)
         {
-            return await questionRepository.GetQuestionsByUnitAsync(unitId);
+            List<Question> questions = await questionRepository.GetQuestionsByUnitAsync(unitId);
+            return mapper.Map<List<QuestionDto>>(questions);
         }
 
-        public async Task<List<Question>> GetQuestionsByTeacherSubjectAsync(int teacherSubjectId)
+        public async Task<List<QuestionDto>> GetQuestionsByTeacherSubjectAsync(int teacherSubjectId)
         {
-            return await questionRepository.GetQuestionsByTeacherSubjectAsync(teacherSubjectId);
+            List<Question> questions = await questionRepository.GetQuestionsByTeacherSubjectAsync(teacherSubjectId);
+            return mapper.Map<List<QuestionDto>>(questions);
         }
     }
 }
-

@@ -1,35 +1,47 @@
-﻿using DAL.Data;
+﻿using AutoMapper;
+using DAL.Data;
 using DAL.Repositories;
+using DTO;
 
 namespace BLL.Services
 {
     public class AssignmentUnitService : IAssignmentUnitService
     {
         private IAssignmentUnitRepository assignmentUnitRepository;
+        private IMapper mapper;
 
-        public AssignmentUnitService(IAssignmentUnitRepository assignmentUnitRepository)
+        public AssignmentUnitService(IAssignmentUnitRepository assignmentUnitRepository, IMapper mapper)
         {
             this.assignmentUnitRepository = assignmentUnitRepository;
+            this.mapper = mapper;
         }
 
-        public async Task<List<AssignmentUnit>> GetAssignmentUnitsAsync()
+        public async Task<List<AssignmentUnitDto>> GetAssignmentUnitsAsync()
         {
-            return await assignmentUnitRepository.GetAssignmentUnitsAsync();
+            List<AssignmentUnit> assignmentUnits = await assignmentUnitRepository.GetAssignmentUnitsAsync();
+            return mapper.Map<List<AssignmentUnitDto>>(assignmentUnits);
         }
 
-        public async Task<AssignmentUnit> GetAssignmentUnitAsync(int assignmentId, int unitId)
+        public async Task<AssignmentUnitDto?> GetAssignmentUnitAsync(int assignmentId, int unitId)
         {
-            return await assignmentUnitRepository.GetAssignmentUnitAsync(assignmentId, unitId);
+            AssignmentUnit assignmentUnit = await assignmentUnitRepository.GetAssignmentUnitAsync(assignmentId, unitId);
+            if (assignmentUnit == null)
+                return null;
+            return mapper.Map<AssignmentUnitDto>(assignmentUnit);
         }
 
-        public async Task<List<AssignmentUnit>> GetUnitsByAssignmentAsync(int assignmentId)
+        public async Task<List<AssignmentUnitDto>> GetUnitsByAssignmentAsync(int assignmentId)
         {
-            return await assignmentUnitRepository.GetUnitsByAssignmentAsync(assignmentId);
+            List<AssignmentUnit> assignmentUnits = await assignmentUnitRepository.GetUnitsByAssignmentAsync(assignmentId);
+            return mapper.Map<List<AssignmentUnitDto>>(assignmentUnits);
         }
 
-        public async Task<AssignmentUnit> AddAssignmentUnitAsync(AssignmentUnit assignmentUnit)
+        public async Task<AssignmentUnitDto> AddAssignmentUnitAsync(AssignmentUnitPostDto assignmentUnitDto)
         {
-            return await assignmentUnitRepository.AddAssignmentUnitAsync(assignmentUnit);
+            AssignmentUnit assignmentUnit = mapper.Map<AssignmentUnit>(assignmentUnitDto);
+            await assignmentUnitRepository.AddAssignmentUnitAsync(assignmentUnit);
+            AssignmentUnit saved = await assignmentUnitRepository.GetAssignmentUnitAsync(assignmentUnit.AssignmentID, assignmentUnit.UnitID);
+            return mapper.Map<AssignmentUnitDto>(saved);
         }
 
         public async Task<bool> DeleteAssignmentUnitAsync(int assignmentId, int unitId)

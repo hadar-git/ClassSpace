@@ -1,16 +1,16 @@
-﻿using DAL.Data;
+﻿using DTO;
 
 namespace BLL.Services
 {
     public interface IMaterialService
     {
-        Task<List<Material>> GetMaterialsAsync();
-        Task<Material> GetMaterialAsync(int id);
-        Task<Material> AddMaterialAsync(Material material);
-        Task<Material> UpdateMaterialAsync(Material material);
+        Task<List<MaterialDto>> GetMaterialsAsync();
+        Task<MaterialDto?> GetMaterialAsync(int id);
+        Task<MaterialDto> AddMaterialAsync(MaterialPostDto materialDto);
+        Task<bool> UpdateMaterialAsync(int id, MaterialUpdateDto materialDto);
         Task<bool> DeleteMaterialAsync(int id);
-        Task<List<Material>> GetMaterialsByUnitAsync(int unitId);
-        Task<List<Material>> GetMaterialsByAssignmentAsync(int assignmentId);
-        Task<List<Material>> GetMaterialsByQuestionAsync(int questionId);
+        Task<List<MaterialDto>> GetMaterialsByUnitAsync(int unitId);
+        Task<List<MaterialDto>> GetMaterialsByAssignmentAsync(int assignmentId);
+        Task<List<MaterialDto>> GetMaterialsByQuestionAsync(int questionId);
     }
 }

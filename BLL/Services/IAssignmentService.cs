@@ -1,14 +1,14 @@
-﻿using DAL.Data;
+﻿using DTO;
 
 namespace BLL.Services
 {
     public interface IAssignmentService
     {
-        Task<List<Assignment>> GetAssignmentsAsync();
-        Task<Assignment> GetAssignmentAsync(int id);
-        Task<Assignment> AddAssignmentAsync(Assignment assignment);
-        Task<Assignment> UpdateAssignmentAsync(Assignment assignment);
+        Task<List<AssignmentDto>> GetAssignmentsAsync();
+        Task<AssignmentDto?> GetAssignmentAsync(int id);
+        Task<AssignmentDto> AddAssignmentAsync(AssignmentPostDto assignmentDto);
+        Task<bool> UpdateAssignmentAsync(int id, AssignmentUpdateDto assignmentDto);
         Task<bool> DeleteAssignmentAsync(int id);
-        Task<List<Assignment>> GetAssignmentsByTeacherSubjectAsync(int teacherSubjectId);
+        Task<List<AssignmentDto>> GetAssignmentsByTeacherSubjectAsync(int teacherSubjectId);
     }
 }

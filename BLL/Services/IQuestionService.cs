@@ -1,15 +1,15 @@
-﻿using DAL.Data;
+﻿using DTO;
 
 namespace BLL.Services
 {
     public interface IQuestionService
     {
-        Task<List<Question>> GetQuestionsAsync();
-        Task<Question> GetQuestionAsync(int id);
-        Task<Question> AddQuestionAsync(Question question);
-        Task<Question> UpdateQuestionAsync(Question question);
+        Task<List<QuestionDto>> GetQuestionsAsync();
+        Task<QuestionDto?> GetQuestionAsync(int id);
+        Task<QuestionDto> AddQuestionAsync(QuestionPostDto questionDto);
+        Task<bool> UpdateQuestionAsync(int id, QuestionUpdateDto questionDto);
         Task<bool> DeleteQuestionAsync(int id);
-        Task<List<Question>> GetQuestionsByUnitAsync(int unitId);
-        Task<List<Question>> GetQuestionsByTeacherSubjectAsync(int teacherSubjectId);
+        Task<List<QuestionDto>> GetQuestionsByUnitAsync(int unitId);
+        Task<List<QuestionDto>> GetQuestionsByTeacherSubjectAsync(int teacherSubjectId);
     }
 }

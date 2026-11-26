@@ -1,5 +1,5 @@
-﻿using DAL.Data;
-using BLL.Services;
+﻿using BLL.Services;
+using DTO;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClassSpace.Controllers
@@ -17,54 +17,56 @@ namespace ClassSpace.Controllers
 
         // GET api/Material
         [HttpGet]
-        public async Task<List<Material>> GetMaterials()
+        public async Task<List<MaterialDto>> GetMaterials()
         {
             return await materialService.GetMaterialsAsync();
         }
 
         // GET api/Material/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Material>> GetMaterial(int id)
+        public async Task<ActionResult<MaterialDto>> GetMaterial(int id)
         {
-            Material material = await materialService.GetMaterialAsync(id);
+            MaterialDto? material = await materialService.GetMaterialAsync(id);
             if (material == null)
                 return NotFound();
             return material;
         }
 
-        // GET api/Material/unit/5 - החומרים של יחידה
+        // GET api/Material/unit/5
         [HttpGet("unit/{unitId}")]
-        public async Task<List<Material>> GetMaterialsByUnit(int unitId)
+        public async Task<List<MaterialDto>> GetMaterialsByUnit(int unitId)
         {
             return await materialService.GetMaterialsByUnitAsync(unitId);
         }
 
-        // GET api/Material/assignment/5 - החומרים של מטלה
+        // GET api/Material/assignment/5
         [HttpGet("assignment/{assignmentId}")]
-        public async Task<List<Material>> GetMaterialsByAssignment(int assignmentId)
+        public async Task<List<MaterialDto>> GetMaterialsByAssignment(int assignmentId)
         {
             return await materialService.GetMaterialsByAssignmentAsync(assignmentId);
         }
 
-        // GET api/Material/question/5 - החומרים של שאלה
+        // GET api/Material/question/5
         [HttpGet("question/{questionId}")]
-        public async Task<List<Material>> GetMaterialsByQuestion(int questionId)
+        public async Task<List<MaterialDto>> GetMaterialsByQuestion(int questionId)
         {
             return await materialService.GetMaterialsByQuestionAsync(questionId);
         }
 
         // POST api/Material
         [HttpPost]
-        public async Task<Material> AddMaterial(Material material)
+        public async Task<MaterialDto> AddMaterial(MaterialPostDto materialDto)
         {
-            return await materialService.AddMaterialAsync(material);
+            return await materialService.AddMaterialAsync(materialDto);
         }
 
-        // PUT api/Material
-        [HttpPut]
-        public async Task<Material> UpdateMaterial(Material material)
+        // PUT api/Material/5
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UpdateMaterial(int id, MaterialUpdateDto materialDto)
         {
-            return await materialService.UpdateMaterialAsync(material);
+            if (!await materialService.UpdateMaterialAsync(id, materialDto))
+                return NotFound();
+            return NoContent();
         }
 
         // DELETE api/Material/5

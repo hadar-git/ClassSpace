@@ -17,16 +17,16 @@ namespace ClassSpace.Controllers
 
         // GET api/Material
         [HttpGet]
-        public List<Material> GetMaterials()
+        public async Task<List<Material>> GetMaterials()
         {
-            return materialRepository.GetMaterials();
+            return await materialRepository.GetMaterialsAsync();
         }
 
         // GET api/Material/5
         [HttpGet("{id}")]
-        public ActionResult<Material> GetMaterial(int id)
+        public async Task<ActionResult<Material>> GetMaterial(int id)
         {
-            Material material = materialRepository.GetMaterial(id);
+            Material material = await materialRepository.GetMaterialAsync(id);
             if (material == null)
                 return NotFound();
             return material;
@@ -34,44 +34,44 @@ namespace ClassSpace.Controllers
 
         // GET api/Material/unit/5 - החומרים של יחידה
         [HttpGet("unit/{unitId}")]
-        public List<Material> GetMaterialsByUnit(int unitId)
+        public async Task<List<Material>> GetMaterialsByUnit(int unitId)
         {
-            return materialRepository.GetMaterialsByUnit(unitId);
+            return await materialRepository.GetMaterialsByUnitAsync(unitId);
         }
 
         // GET api/Material/assignment/5 - החומרים של מטלה
         [HttpGet("assignment/{assignmentId}")]
-        public List<Material> GetMaterialsByAssignment(int assignmentId)
+        public async Task<List<Material>> GetMaterialsByAssignment(int assignmentId)
         {
-            return materialRepository.GetMaterialsByAssignment(assignmentId);
+            return await materialRepository.GetMaterialsByAssignmentAsync(assignmentId);
         }
 
         // GET api/Material/question/5 - החומרים של שאלה
         [HttpGet("question/{questionId}")]
-        public List<Material> GetMaterialsByQuestion(int questionId)
+        public async Task<List<Material>> GetMaterialsByQuestion(int questionId)
         {
-            return materialRepository.GetMaterialsByQuestion(questionId);
+            return await materialRepository.GetMaterialsByQuestionAsync(questionId);
         }
 
         // POST api/Material
         [HttpPost]
-        public Material AddMaterial(Material material)
+        public async Task<Material> AddMaterial(Material material)
         {
-            return materialRepository.AddMaterial(material);
+            return await materialRepository.AddMaterialAsync(material);
         }
 
         // PUT api/Material
         [HttpPut]
-        public Material UpdateMaterial(Material material)
+        public async Task<Material> UpdateMaterial(Material material)
         {
-            return materialRepository.UpdateMaterial(material);
+            return await materialRepository.UpdateMaterialAsync(material);
         }
 
         // DELETE api/Material/5
         [HttpDelete("{id}")]
-        public ActionResult DeleteMaterial(int id)
+        public async Task<ActionResult> DeleteMaterial(int id)
         {
-            if (!materialRepository.DeleteMaterial(id))
+            if (!await materialRepository.DeleteMaterialAsync(id))
                 return NotFound();
             return Ok();
         }

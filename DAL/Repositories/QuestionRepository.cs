@@ -12,70 +12,70 @@ namespace DAL.Repositories
             this.db = db;
         }
 
-        public List<Question> GetQuestions()
+        public async Task<List<Question>> GetQuestionsAsync()
         {
-            return db.Questions
+            return await db.Questions
                 .Include(q => q.Student)
                 .Include(q => q.TeacherSubject)
                 .Include(q => q.Assignment)
                 .Include(q => q.Unit)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Question GetQuestion(int id)
+        public async Task<Question> GetQuestionAsync(int id)
         {
-            return db.Questions
+            return await db.Questions
                 .Include(q => q.Student)
                 .Include(q => q.TeacherSubject)
                 .Include(q => q.Assignment)
                 .Include(q => q.Unit)
-                .FirstOrDefault(q => q.QuestionId == id);
+                .FirstOrDefaultAsync(q => q.QuestionId == id);
         }
 
-        public Question AddQuestion(Question question)
+        public async Task<Question> AddQuestionAsync(Question question)
         {
             db.Questions.Add(question);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return question;
         }
 
-        public Question UpdateQuestion(Question question)
+        public async Task<Question> UpdateQuestionAsync(Question question)
         {
             db.Questions.Update(question);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return question;
         }
 
-        public bool DeleteQuestion(int id)
+        public async Task<bool> DeleteQuestionAsync(int id)
         {
-            Question question = db.Questions.FirstOrDefault(q => q.QuestionId == id);
+            Question question = await db.Questions.FirstOrDefaultAsync(q => q.QuestionId == id);
             if (question == null)
                 return false;
             db.Questions.Remove(question);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return true;
         }
 
-        public List<Question> GetQuestionsByUnit(int unitId)
+        public async Task<List<Question>> GetQuestionsByUnitAsync(int unitId)
         {
-            return db.Questions
+            return await db.Questions
                 .Include(q => q.Student)
                 .Include(q => q.TeacherSubject)
                 .Include(q => q.Assignment)
                 .Include(q => q.Unit)
                 .Where(q => q.UnitID == unitId)
-                .ToList();
+                .ToListAsync();
         }
 
-        public List<Question> GetQuestionsByTeacherSubject(int teacherSubjectId)
+        public async Task<List<Question>> GetQuestionsByTeacherSubjectAsync(int teacherSubjectId)
         {
-            return db.Questions
+            return await db.Questions
                 .Include(q => q.Student)
                 .Include(q => q.TeacherSubject)
                 .Include(q => q.Assignment)
                 .Include(q => q.Unit)
                 .Where(q => q.TeacherSubjectID == teacherSubjectId)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

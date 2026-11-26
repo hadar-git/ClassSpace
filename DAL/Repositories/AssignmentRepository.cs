@@ -12,52 +12,52 @@ namespace DAL.Repositories
             this.db = db;
         }
 
-        public List<Assignment> GetAssignments()
+        public async Task<List<Assignment>> GetAssignmentsAsync()
         {
-            return db.Assignments
+            return await db.Assignments
                 .Include(a => a.TeacherSubject)
                 .OrderBy(a => a.DueDate)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Assignment GetAssignment(int id)
+        public async Task<Assignment> GetAssignmentAsync(int id)
         {
-            return db.Assignments
+            return await db.Assignments
                 .Include(a => a.TeacherSubject)
-                .FirstOrDefault(a => a.AssignmentId == id);
+                .FirstOrDefaultAsync(a => a.AssignmentId == id);
         }
 
-        public Assignment AddAssignment(Assignment assignment)
+        public async Task<Assignment> AddAssignmentAsync(Assignment assignment)
         {
             db.Assignments.Add(assignment);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return assignment;
         }
 
-        public Assignment UpdateAssignment(Assignment assignment)
+        public async Task<Assignment> UpdateAssignmentAsync(Assignment assignment)
         {
             db.Assignments.Update(assignment);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return assignment;
         }
 
-        public bool DeleteAssignment(int id)
+        public async Task<bool> DeleteAssignmentAsync(int id)
         {
-            Assignment assignment = db.Assignments.FirstOrDefault(a => a.AssignmentId == id);
+            Assignment assignment = await db.Assignments.FirstOrDefaultAsync(a => a.AssignmentId == id);
             if (assignment == null)
                 return false;
             db.Assignments.Remove(assignment);
-            db.SaveChanges();
+            await db.SaveChangesAsync();
             return true;
         }
 
-        public List<Assignment> GetAssignmentsByTeacherSubject(int teacherSubjectId)
+        public async Task<List<Assignment>> GetAssignmentsByTeacherSubjectAsync(int teacherSubjectId)
         {
-            return db.Assignments
+            return await db.Assignments
                 .Include(a => a.TeacherSubject)
                 .Where(a => a.TeacherSubjectID == teacherSubjectId)
                 .OrderBy(a => a.DueDate)
-                .ToList();
+                .ToListAsync();
         }
     }
 }

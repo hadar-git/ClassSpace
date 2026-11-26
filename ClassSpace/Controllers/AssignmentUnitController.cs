@@ -17,16 +17,16 @@ namespace ClassSpace.Controllers
 
         // GET api/AssignmentUnit
         [HttpGet]
-        public List<AssignmentUnit> GetAssignmentUnits()
+        public async Task<List<AssignmentUnit>> GetAssignmentUnits()
         {
-            return assignmentUnitRepository.GetAssignmentUnits();
+            return await assignmentUnitRepository.GetAssignmentUnitsAsync();
         }
 
         // GET api/AssignmentUnit/3/7
         [HttpGet("{assignmentId}/{unitId}")]
-        public ActionResult<AssignmentUnit> GetAssignmentUnit(int assignmentId, int unitId)
+        public async Task<ActionResult<AssignmentUnit>> GetAssignmentUnit(int assignmentId, int unitId)
         {
-            AssignmentUnit assignmentUnit = assignmentUnitRepository.GetAssignmentUnit(assignmentId, unitId);
+            AssignmentUnit assignmentUnit = await assignmentUnitRepository.GetAssignmentUnitAsync(assignmentId, unitId);
             if (assignmentUnit == null)
                 return NotFound();
             return assignmentUnit;
@@ -34,23 +34,23 @@ namespace ClassSpace.Controllers
 
         // GET api/AssignmentUnit/assignment/3 - על אילו יחידות המטלה
         [HttpGet("assignment/{assignmentId}")]
-        public List<AssignmentUnit> GetUnitsByAssignment(int assignmentId)
+        public async Task<List<AssignmentUnit>> GetUnitsByAssignment(int assignmentId)
         {
-            return assignmentUnitRepository.GetUnitsByAssignment(assignmentId);
+            return await assignmentUnitRepository.GetUnitsByAssignmentAsync(assignmentId);
         }
 
         // POST api/AssignmentUnit
         [HttpPost]
-        public AssignmentUnit AddAssignmentUnit(AssignmentUnit assignmentUnit)
+        public async Task<AssignmentUnit> AddAssignmentUnit(AssignmentUnit assignmentUnit)
         {
-            return assignmentUnitRepository.AddAssignmentUnit(assignmentUnit);
+            return await assignmentUnitRepository.AddAssignmentUnitAsync(assignmentUnit);
         }
 
         // DELETE api/AssignmentUnit/3/7
         [HttpDelete("{assignmentId}/{unitId}")]
-        public ActionResult DeleteAssignmentUnit(int assignmentId, int unitId)
+        public async Task<ActionResult> DeleteAssignmentUnit(int assignmentId, int unitId)
         {
-            if (!assignmentUnitRepository.DeleteAssignmentUnit(assignmentId, unitId))
+            if (!await assignmentUnitRepository.DeleteAssignmentUnitAsync(assignmentId, unitId))
                 return NotFound();
             return Ok();
         }

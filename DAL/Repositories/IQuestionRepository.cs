@@ -4,12 +4,12 @@ namespace DAL.Repositories
 {
     public interface IQuestionRepository
     {
-        List<Question> GetQuestions();                                       // כל השאלות
-        Question GetQuestion(int id);                                        // שאלה לפי קוד
-        Question AddQuestion(Question question);                             // הוספה
-        Question UpdateQuestion(Question question);                          // עדכון
-        bool DeleteQuestion(int id);                                         // מחיקה לפי קוד
-        List<Question> GetQuestionsByUnit(int unitId);                       // השאלות של יחידת לימוד (בשביל האלגוריתם)
-        List<Question> GetQuestionsByTeacherSubject(int teacherSubjectId);   // השאלות שמגיעות למורה במקצוע ובכיתה
+        Task<List<Question>> GetQuestionsAsync();                                       // כל השאלות
+        Task<Question> GetQuestionAsync(int id);                                        // שאלה לפי קוד
+        Task<Question> AddQuestionAsync(Question question);                             // הוספה
+        Task<Question> UpdateQuestionAsync(Question question);                          // עדכון
+        Task<bool> DeleteQuestionAsync(int id);                                         // מחיקה לפי קוד
+        Task<List<Question>> GetQuestionsByUnitAsync(int unitId);                       // השאלות של יחידת לימוד (בשביל האלגוריתם)
+        Task<List<Question>> GetQuestionsByTeacherSubjectAsync(int teacherSubjectId);   // השאלות שמגיעות למורה במקצוע ובכיתה
     }
 }

@@ -1,5 +1,5 @@
 ﻿using DAL.Data;
-using DAL.Repositories;
+using BLL.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ClassSpace.Controllers
@@ -8,25 +8,25 @@ namespace ClassSpace.Controllers
     [ApiController]
     public class VoteController : ControllerBase
     {
-        private IVoteRepository voteRepository;
+        private IVoteService voteService;
 
-        public VoteController(IVoteRepository voteRepository)
+        public VoteController(IVoteService voteService)
         {
-            this.voteRepository = voteRepository;
+            this.voteService = voteService;
         }
 
         // GET api/Vote
         [HttpGet]
         public async Task<List<Vote>> GetVotes()
         {
-            return await voteRepository.GetVotesAsync();
+            return await voteService.GetVotesAsync();
         }
 
         // GET api/Vote/3/7
         [HttpGet("{questionId}/{studentId}")]
         public async Task<ActionResult<Vote>> GetVote(int questionId, int studentId)
         {
-            Vote vote = await voteRepository.GetVoteAsync(questionId, studentId);
+            Vote vote = await voteService.GetVoteAsync(questionId, studentId);
             if (vote == null)
                 return NotFound();
             return vote;
@@ -36,21 +36,21 @@ namespace ClassSpace.Controllers
         [HttpGet("question/{questionId}")]
         public async Task<List<Vote>> GetVotesByQuestion(int questionId)
         {
-            return await voteRepository.GetVotesByQuestionAsync(questionId);
+            return await voteService.GetVotesByQuestionAsync(questionId);
         }
 
         // POST api/Vote
         [HttpPost]
         public async Task<Vote> AddVote(Vote vote)
         {
-            return await voteRepository.AddVoteAsync(vote);
+            return await voteService.AddVoteAsync(vote);
         }
 
         // DELETE api/Vote/3/7
         [HttpDelete("{questionId}/{studentId}")]
         public async Task<ActionResult> DeleteVote(int questionId, int studentId)
         {
-            if (!await voteRepository.DeleteVoteAsync(questionId, studentId))
+            if (!await voteService.DeleteVoteAsync(questionId, studentId))
                 return NotFound();
             return Ok();
         }

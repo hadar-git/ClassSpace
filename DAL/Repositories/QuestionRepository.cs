@@ -36,7 +36,7 @@ namespace DAL.Repositories
         {
             db.Questions.Add(question);
             await db.SaveChangesAsync();
-            return question;
+              return question;
         }
 
         public async Task<Question> UpdateQuestionAsync(Question question)

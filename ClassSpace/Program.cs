@@ -2,7 +2,7 @@
 using DAL.Data;
 using DAL.Repositories;
 using System.Text.Json.Serialization;
-
+using BLL.Services;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -30,6 +30,12 @@ builder.Services.AddScoped<IAssignmentUnitRepository, AssignmentUnitRepository>(
 builder.Services.AddScoped<IQuestionRepository, QuestionRepository>();
 builder.Services.AddScoped<IVoteRepository, VoteRepository>();
 builder.Services.AddScoped<IMaterialRepository, MaterialRepository>();
+//==========BLL================
+builder.Services.AddScoped<IQuestionService, QuestionService>();
+builder.Services.AddScoped<IVoteService, VoteService>();
+builder.Services.AddScoped<IMaterialService, MaterialService>();
+builder.Services.AddScoped<IAssignmentService, AssignmentService>();
+builder.Services.AddScoped<IAssignmentUnitService, AssignmentUnitService>();
 
 
 var app = builder.Build();
